@@ -63,7 +63,16 @@ app.use('/api', globalLimiter);
 // ---------- Static ----------
 app.use('/uploads', express.static('uploads'));
 
-// ---------- Health check ----------
+// ---------- Health check & Root ----------
+// Root Route for Render Base URL
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'ConnectHub API is live and running!',
+    timestamp: new Date()
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({ success: true, message: 'ConnectHub API is running', timestamp: new Date() });
 });
@@ -78,11 +87,6 @@ app.use('/api/chats', chatRoutes); // includes nested /:chatId/messages
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/admin', adminRoutes);
-// app.use('/api/chats', chatRoutes);
-// app.use('/api/messages', messageRoutes);
-// app.use('/api/notifications', notificationRoutes);
-// app.use('/api/reviews', reviewRoutes);
-// app.use('/api/admin', adminRoutes);
 
 // ---------- Error Handling ----------
 app.use(notFound);
